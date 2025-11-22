@@ -1,0 +1,6 @@
+playwright
+z3-solver
+pydantic-ai
+openai
+pytest
+python-dotenv
