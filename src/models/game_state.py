@@ -15,6 +15,7 @@ class Person(BaseModel):
     col: str  # A-D
     status: Status = Status.UNKNOWN
     clue: Optional[str] = None  # The clue revealed by this person, if any
+    neighbors: List[str] = []  # Names of neighboring people
 
 class GameState(BaseModel):
     people: List[Person]

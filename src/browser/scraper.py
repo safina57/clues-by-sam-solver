@@ -102,6 +102,20 @@ class GameScraper:
             )
             people.append(person)
         
+        # Calculate neighbors for each person
+        for p in people:
+            p.neighbors = []
+            for other in people:
+                if p.name == other.name:
+                    continue
+                
+                row_diff = abs(p.row - other.row)
+                col_p = ord(p.col) - ord('A')
+                col_o = ord(other.col) - ord('A')
+                col_diff = abs(col_p - col_o)
+                
+                if row_diff <= 1 and col_diff <= 1:
+                    p.neighbors.append(other.name)
                 
         return people
 
