@@ -9,13 +9,14 @@ const Hero = () => {
       <div className="pixel-card" style={{ maxWidth: '800px', margin: '0 auto' }}>
         <h2 style={{ fontSize: '1.5rem', marginBottom: '20px' }}>MISSION BRIEFING</h2>
         <p style={{ fontSize: '1.2rem', lineHeight: '1.6' }}>
-          "Clues by Sam" is a logic puzzle game where you must deduce the correct arrangement of items based on a set of clues.
+          "Clues by Sam" is a high-stakes logic puzzle where your goal is to identify the <span style={{color: 'var(--color-text)'}}>INNOCENTS</span> and catch the <span style={{color: 'var(--color-criminal)'}}>CRIMINALS</span>.
           <br/><br/>
-          This project is an automated solver that uses <strong>First Order Logic</strong> and the <strong>Z3 Theorem Prover</strong> to crack the code instantly.
+          You are given a set of cryptic hints about who is sitting where and what they are doing.
+          This project automates the detective work using <strong>First Order Logic</strong> and the <strong>Z3 Theorem Prover</strong> to deduce the status of every person on the grid instantly.
         </p>
         <div style={{ marginTop: '30px' }}>
-          <a href="#demo" className="pixel-btn" style={{ fontSize: '1.2rem', marginRight: '20px' }}>WATCH DEMO</a>
-          <a href="#workflow" className="pixel-btn" style={{ fontSize: '1.2rem', backgroundColor: 'transparent', border: '2px solid var(--color-primary)', color: 'var(--color-primary)' }}>READ LOGS</a>
+          <a href="#demo" className="pixel-btn red" style={{ fontSize: '1.2rem', marginRight: '20px', textDecoration: 'none' }}>WATCH DEMO</a>
+          <a href="#workflow" className="pixel-btn" style={{ fontSize: '1.2rem', textDecoration: 'none' }}>READ LOGS</a>
         </div>
       </div>
     </section>

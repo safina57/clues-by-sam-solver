@@ -49,39 +49,48 @@ const Arrow = ({ vertical = false }) => (
 const WorkflowDiagram = () => {
   return (
     <div className="pixel-card" style={{ padding: '40px', marginBottom: '60px', overflowX: 'auto' }}>
-      <h3 style={{ textAlign: 'center', marginBottom: '30px', color: 'var(--color-primary)' }}>LOGIC LOOP</h3>
+      <h3 style={{ textAlign: 'center', marginBottom: '30px', color: 'var(--color-primary)' }}>LOGIC PIPELINE</h3>
 
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
-        {/* Top Row */}
+        {/* Main Flow */}
         <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
           <FlowNode label="GAME SITE" icon={Terminal} />
-          <Arrow />
-          <FlowNode label="BROWSER (Playwright)" icon={Code} />
-          <Arrow />
-          <FlowNode label="TRANSLATOR (LLM)" icon={Cpu} />
+          <div style={{ textAlign: 'center', margin: '0 10px' }}>
+            <span style={{ fontSize: '0.6rem', color: '#666' }}>EXTRACT HINTS</span>
+            <Arrow />
+          </div>
+
+          <FlowNode label="TRANSLATOR" icon={Code} />
+          <div style={{ textAlign: 'center', margin: '0 10px' }}>
+            <span style={{ fontSize: '0.6rem', color: '#666' }}>FIRST ORDER LOGIC</span>
+            <Arrow />
+          </div>
+
+          <FlowNode label="Z3 SOLVER" icon={Cpu} />
+          <div style={{ textAlign: 'center', margin: '0 10px' }}>
+            <span style={{ fontSize: '0.6rem', color: '#666' }}>INFERENCE</span>
+            <Arrow />
+          </div>
+
+          <FlowNode label="STATES" icon={Database} color="var(--color-criminal)" />
         </div>
 
-        <Arrow vertical />
-
-        {/* Bottom Row */}
-        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-           <FlowNode label="ACTION QUEUE" icon={Terminal} color="var(--color-criminal)" />
-           <Arrow />
-           <FlowNode label="Z3 SOLVER" icon={Cpu} />
-           <Arrow />
+        {/* KB Connection */}
+        <div style={{ display: 'flex', alignItems: 'center', marginTop: '-10px' }}>
+           <div style={{ width: '2px', height: '30px', background: 'var(--color-primary)', marginRight: '160px' }}></div>
+        </div>
+        <div style={{ marginRight: '160px' }}>
            <FlowNode label="KNOWLEDGE BASE" icon={Database} />
         </div>
       </div>
 
-      <div style={{ textAlign: 'center', marginTop: '20px', fontSize: '0.8rem', color: '#666' }}>
-        <span style={{ color: 'var(--color-primary)' }}>■</span> INNOCENT FLOW &nbsp;&nbsp;
-        <span style={{ color: 'var(--color-criminal)' }}>■</span> CRIMINAL DETECTION
+      <div style={{ textAlign: 'center', marginTop: '40px', fontSize: '0.8rem', color: '#666' }}>
+        <span style={{ color: 'var(--color-primary)' }}>■</span> DATA FLOW &nbsp;&nbsp;
+        <span style={{ color: 'var(--color-criminal)' }}>■</span> FINAL OUTPUT
       </div>
     </div>
   );
-};
-
-const Workflow = () => {
+};const Workflow = () => {
   return (
     <section id="workflow" className="container">
       <h2 className="section-title">SYSTEM ARCHITECTURE</h2>
