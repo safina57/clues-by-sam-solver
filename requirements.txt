@@ -1,9 +1,0 @@
-playwright
-z3-solver
-pydantic-ai
-openai
-pytest
-python-dotenv
-pre-commit
-black
-flake8
