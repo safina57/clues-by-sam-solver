@@ -209,9 +209,9 @@ class GameScraper:
             return False
 
     async def take_screenshot(self, path: str):
-        """Take a screenshot of the current page."""
+        """Take a screenshot of the current viewport."""
         if self.page:
-            await self.page.screenshot(path=path, full_page=True)
+            await self.page.screenshot(path=path, full_page=False)
 
     def _extract_profession(self, text: str) -> str:
         return text.lower().strip()
