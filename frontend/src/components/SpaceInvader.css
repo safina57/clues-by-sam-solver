@@ -1,0 +1,44 @@
+.space-invader-container {
+  position: fixed;
+  bottom: 20px;
+  left: -50px;
+  z-index: 100;
+  animation: walk 20s linear infinite;
+  pointer-events: none;
+}
+
+.space-invader {
+  animation: bounce 0.5s steps(2) infinite;
+}
+
+@keyframes walk {
+  0% {
+    left: -50px;
+    transform: scaleX(1);
+  }
+  45% {
+    left: 100%;
+    transform: scaleX(1);
+  }
+  50% {
+    left: 100%;
+    transform: scaleX(-1);
+  }
+  95% {
+    left: -50px;
+    transform: scaleX(-1);
+  }
+  100% {
+    left: -50px;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
