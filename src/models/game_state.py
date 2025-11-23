@@ -2,10 +2,12 @@ from enum import Enum
 from typing import List, Optional
 from pydantic import BaseModel
 
+
 class Status(str, Enum):
     UNKNOWN = "unknown"
     INNOCENT = "innocent"
     CRIMINAL = "criminal"
+
 
 class Person(BaseModel):
     id: str  # "A1"
@@ -16,6 +18,7 @@ class Person(BaseModel):
     status: Status = Status.UNKNOWN
     clue: Optional[str] = None  # The clue revealed by this person, if any
     neighbors: List[str] = []  # Names of neighboring people
+
 
 class GameState(BaseModel):
     people: List[Person]

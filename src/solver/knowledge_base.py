@@ -1,6 +1,7 @@
 from typing import List, Dict
-from z3 import *
+from z3 import Solver, Bool, BoolRef, If, Sum, And, Not, Implies, ArithRef
 from src.models.game_state import Person, Status
+
 
 class KnowledgeBase:
     def __init__(self, people: List[Person]):
@@ -8,16 +9,16 @@ class KnowledgeBase:
         self.solver = Solver()
         self.vars: Dict[str, BoolRef] = {}
         self.person_map: Dict[str, Person] = {p.name: p for p in people}
-        
+
         # Initialize Z3 variables
         for p in people:
             self.vars[p.name] = Bool(f"{p.name}_is_criminal")
-            
+
             # Add known status constraints
             if p.status == Status.CRIMINAL:
-                self.solver.add(self.vars[p.name] == True)
+                self.solver.add(self.vars[p.name])
             elif p.status == Status.INNOCENT:
-                self.solver.add(self.vars[p.name] == False)
+                self.solver.add(Not(self.vars[p.name]))
 
     @property
     def people_names(self) -> List[str]:
@@ -49,12 +50,12 @@ class KnowledgeBase:
         for other in self.people:
             if other.name == name:
                 continue
-            
+
             row_diff = abs(p.row - other.row)
-            col_p = ord(p.col) - ord('A')
-            col_o = ord(other.col) - ord('A')
+            col_p = ord(p.col) - ord("A")
+            col_o = ord(other.col) - ord("A")
             col_diff = abs(col_p - col_o)
-            
+
             if (row_diff == 1 and col_diff == 0) or (row_diff == 0 and col_diff == 1):
                 neighbors.append(other.name)
         return neighbors
@@ -78,7 +79,7 @@ class KnowledgeBase:
 
     def get_col(self, col_char: str) -> List[str]:
         return [p.name for p in self.people if p.col == col_char]
-    
+
     def get_profession(self, prof: str) -> List[str]:
         return [p.name for p in self.people if p.profession == prof]
 
@@ -93,7 +94,7 @@ class KnowledgeBase:
         p1 = self.person_map[name1]
         p2 = self.person_map[name2]
         between = []
-        
+
         if p1.row == p2.row:
             # Same row
             c1 = ord(p1.col)
@@ -108,7 +109,7 @@ class KnowledgeBase:
             for p in self.people:
                 if p.col == p1.col and start < p.row < end:
                     between.append(p.name)
-        
+
         return between
 
     def get_left_of(self, name: str) -> List[str]:
@@ -128,7 +129,7 @@ class KnowledgeBase:
         return [p.name for p in self.people if self.is_below(p.name, name)]
 
     # --- Logic Helpers ---
-    
+
     def count_criminals(self, names: List[str]) -> ArithRef:
         return Sum([If(self.is_criminal(n), 1, 0) for n in names])
 
@@ -177,16 +178,14 @@ class KnowledgeBase:
         """
         row_people = sorted(self.get_row(row_num), key=lambda n: self.person_map[n].col)
         constraints = []
-        
+
         for i in range(len(row_people)):
-            for j in range(i + 2, len(row_people)): 
+            for j in range(i + 2, len(row_people)):
                 p1 = row_people[i]
                 p2 = row_people[j]
-                between = row_people[i+1:j]
-                
-                
-                
-                if status_is_criminal:                    
+                between = row_people[i + 1 : j]
+
+                if status_is_criminal:
                     cond = And(self.is_criminal(p1), self.is_criminal(p2))
                     conseq = And([self.is_criminal(b) for b in between])
                     constraints.append(Implies(cond, conseq))
@@ -195,6 +194,5 @@ class KnowledgeBase:
                     cond = And(self.is_innocent(p1), self.is_innocent(p2))
                     conseq = And([self.is_innocent(b) for b in between])
                     constraints.append(Implies(cond, conseq))
-                    
-        return And(constraints)
 
+        return And(constraints)

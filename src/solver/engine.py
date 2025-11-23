@@ -1,7 +1,8 @@
 from typing import List, Tuple
-from z3 import *
+from z3 import If, Sum, And, Or, Not, Implies, Exists, ForAll, unsat
 from src.models.game_state import Person, Status
 from src.solver.knowledge_base import KnowledgeBase
+
 
 class GameSolver:
     def __init__(self, people: List[Person]):
@@ -15,18 +16,18 @@ class GameSolver:
         try:
             constraint_code = constraint_code.strip()
             constraint_code = constraint_code.replace("\\", " ")
-            
+
             # We expose 'kb' to the eval context
             context = {
-                'kb': self.kb,
-                'If': If,
-                'Sum': Sum,
-                'And': And,
-                'Or': Or,
-                'Not': Not,
-                'Implies': Implies,
-                'Exists': Exists,
-                'ForAll': ForAll
+                "kb": self.kb,
+                "If": If,
+                "Sum": Sum,
+                "And": And,
+                "Or": Or,
+                "Not": Not,
+                "Implies": Implies,
+                "Exists": Exists,
+                "ForAll": ForAll,
             }
             rule = eval(constraint_code, context)
             self.kb.solver.add(rule)
@@ -42,7 +43,7 @@ class GameSolver:
         Returns a list of (Name, NewStatus).
         """
         proven_facts = []
-        
+
         # First, check if the current state is consistent
         if self.kb.solver.check() == unsat:
             print("CRITICAL: Knowledge Base is inconsistent!")
@@ -56,43 +57,42 @@ class GameSolver:
 
             # Assume CRIMINAL (True)
             self.kb.solver.push()
-            self.kb.solver.add(var == True)
+            self.kb.solver.add(var)
             if self.kb.solver.check() == unsat:
                 proven_facts.append((name, Status.INNOCENT))
             self.kb.solver.pop()
 
             # Assume INNOCENT (False)
             self.kb.solver.push()
-            self.kb.solver.add(var == False)
+            self.kb.solver.add(Not(var))
             if self.kb.solver.check() == unsat:
                 proven_facts.append((name, Status.CRIMINAL))
             self.kb.solver.pop()
-            
+
         return proven_facts
 
     def add_fact(self, name: str, status: Status):
         """Update the solver with a newly discovered fact."""
         var = self.kb.vars[name]
         if status == Status.CRIMINAL:
-            self.kb.solver.add(var == True)
+            self.kb.solver.add(var)
         elif status == Status.INNOCENT:
-            self.kb.solver.add(var == False)
+            self.kb.solver.add(Not(var))
 
     def log_state(self, iteration: int, filepath: str = "solver_log.txt"):
         """Log the current state of the KB to a file."""
         with open(filepath, "a") as f:
-            f.write(f"\n{'='*20} Iteration {iteration} {'='*20}\n")
-            
+            f.write(f"\n{'=' * 20} Iteration {iteration} {'=' * 20}\n")
+
             f.write("\n--- Known Facts ---\n")
             for p in self.kb.people:
                 if p.status != Status.UNKNOWN:
                     f.write(f"{p.name}: {p.status.value}\n")
-            
+
             f.write("\n--- Added Constraints (Code) ---\n")
             for i, c in enumerate(self.constraints):
-                f.write(f"{i+1}. {c}\n")
-                
+                f.write(f"{i + 1}. {c}\n")
+
             f.write("\n--- Z3 Solver State ---\n")
             f.write(str(self.kb.solver))
-            f.write(f"\n{'='*50}\n")
-
+            f.write(f"\n{'=' * 50}\n")
