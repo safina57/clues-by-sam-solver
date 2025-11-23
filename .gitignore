@@ -107,3 +107,4 @@ target/
 celerybeat-schedule
 celerybeat.pid
 solver_log.txt
+winning_strikes/
