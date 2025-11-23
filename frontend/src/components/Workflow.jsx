@@ -42,18 +42,31 @@ const Arrow = ({ vertical = false }) => (
     justifyContent: 'center',
     padding: '10px'
   }}>
-    {vertical ? <ArrowDown size={24} color="var(--color-text)" /> : <ArrowRight size={24} color="var(--color-text)" />}
+    {vertical ? <ArrowDown size={24} color="var(--color-text)" /> : <ArrowRight size={24} color="var(--color-text)" style={{ transform: 'scaleX(2)' }} />}
   </div>
 );
 
 const WorkflowDiagram = () => {
   return (
-    <div className="pixel-card" style={{ padding: '40px', marginBottom: '60px', overflowX: 'auto' }}>
+    <div className="pixel-card" style={{
+      padding: '40px',
+      marginBottom: '60px',
+      overflowX: 'auto',
+      scrollbarWidth: 'none', /* Firefox */
+      msOverflowStyle: 'none' /* IE/Edge */
+    }}>
+      <style>
+        {`
+          .pixel-card::-webkit-scrollbar {
+            display: none;
+          }
+        `}
+      </style>
       <h3 style={{ textAlign: 'center', marginBottom: '30px', color: 'var(--color-primary)' }}>LOGIC PIPELINE</h3>
 
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', minWidth: '800px' }}>
         {/* Main Flow */}
-        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <FlowNode label="GAME SITE" icon={Terminal} />
           <div style={{ textAlign: 'center', margin: '0 10px' }}>
             <span style={{ fontSize: '0.6rem', color: '#666' }}>EXTRACT HINTS</span>
@@ -62,25 +75,23 @@ const WorkflowDiagram = () => {
 
           <FlowNode label="TRANSLATOR" icon={Code} />
           <div style={{ textAlign: 'center', margin: '0 10px' }}>
-            <span style={{ fontSize: '0.6rem', color: '#666' }}>FIRST ORDER LOGIC</span>
+            <span style={{ fontSize: '0.6rem', color: '#666' }}>CONVERT TO FOL</span>
             <Arrow />
           </div>
 
-          <FlowNode label="Z3 SOLVER" icon={Cpu} />
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
+            <FlowNode label="Z3 SOLVER" icon={Cpu} />
+            {/* KB Connection */}
+            <div style={{ width: '2px', height: '20px', background: 'var(--color-primary)' }}></div>
+            <FlowNode label="KNOWLEDGE BASE" icon={Database} />
+          </div>
+
           <div style={{ textAlign: 'center', margin: '0 10px' }}>
             <span style={{ fontSize: '0.6rem', color: '#666' }}>INFERENCE</span>
             <Arrow />
           </div>
 
           <FlowNode label="STATES" icon={Database} color="var(--color-criminal)" />
-        </div>
-
-        {/* KB Connection */}
-        <div style={{ display: 'flex', alignItems: 'center', marginTop: '-10px' }}>
-           <div style={{ width: '2px', height: '30px', background: 'var(--color-primary)', marginRight: '160px' }}></div>
-        </div>
-        <div style={{ marginRight: '160px' }}>
-           <FlowNode label="KNOWLEDGE BASE" icon={Database} />
         </div>
       </div>
 
