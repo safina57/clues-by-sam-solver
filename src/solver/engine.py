@@ -15,6 +15,7 @@ class GameSolver:
         """
         try:
             constraint_code = constraint_code.strip()
+            constraint_code = constraint_code.replace("\\n", "\n").replace("\\t", "\t")
             constraint_code = constraint_code.replace("\\", " ")
 
             # We expose 'kb' to the eval context
