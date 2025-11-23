@@ -1,31 +1,27 @@
 import React from 'react';
 import { Github, Linkedin, ExternalLink } from 'lucide-react';
+import './Footer.css';
 
 const Footer = () => {
   return (
-    <footer style={{
-      borderTop: '4px solid var(--color-primary)',
-      padding: '40px 20px',
-      marginTop: '60px',
-      backgroundColor: '#111'
-    }}>
-      <div className="container" style={{ textAlign: 'center' }}>
-        <h2 style={{ marginBottom: '30px' }}>CONNECT TO SOURCE</h2>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '30px', flexWrap: 'wrap' }}>
+    <footer className="footer">
+      <div className="container footer-container">
+        <h2 className="footer-title">CONNECT TO SOURCE</h2>
+        <div className="footer-links">
           <a href="https://github.com/safina57/clues-by-sam-solver" target="_blank" rel="noopener noreferrer" className="pixel-btn">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div className="footer-link-content">
               <Github size={18} />
               <span>GITHUB REPO</span>
             </div>
           </a>
           <a href="https://www.linkedin.com/in/mohamed-amin-haouas" target="_blank" rel="noopener noreferrer" className="pixel-btn">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div className="footer-link-content">
               <Linkedin size={18} />
               <span>LINKEDIN</span>
             </div>
           </a>
         </div>
-        <p style={{ marginTop: '40px', fontSize: '0.8rem', color: '#666' }}>
+        <p className="footer-copyright">
           © 2025 CLUES BY SAM SOLVER. ALL RIGHTS RESERVED.
         </p>
       </div>

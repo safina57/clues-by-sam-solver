@@ -1,0 +1,47 @@
+.hero-section {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.hero-title {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: var(--color-primary);
+  text-shadow: 4px 4px 0 #004400;
+}
+
+.hero-card {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.hero-text {
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+.text-innocent {
+  color: var(--color-text);
+}
+
+.text-criminal {
+  color: var(--color-criminal);
+}
+
+.hero-actions {
+  margin-top: 30px;
+}
+
+.hero-btn {
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+.hero-btn-demo {
+  margin-right: 20px;
+}

@@ -1,0 +1,33 @@
+.footer {
+  border-top: 4px solid var(--color-primary);
+  padding: 40px 20px;
+  margin-top: 60px;
+  background-color: #111;
+}
+
+.footer-container {
+  text-align: center;
+}
+
+.footer-title {
+  margin-bottom: 30px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.footer-link-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-copyright {
+  margin-top: 40px;
+  font-size: 0.8rem;
+  color: #666;
+}

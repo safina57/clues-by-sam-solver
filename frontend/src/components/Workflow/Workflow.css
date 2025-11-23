@@ -1,0 +1,132 @@
+.workflow-step-card {
+  height: 100%;
+}
+
+.workflow-step-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.workflow-icon-container {
+  background: var(--color-primary);
+  padding: 10px;
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.workflow-step-title {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.workflow-step-description {
+  line-height: 1.5;
+}
+
+.flow-node {
+  padding: 10px;
+  text-align: center;
+  width: 140px;
+  background: #000;
+  position: relative;
+}
+
+.flow-node-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.flow-node-label {
+  font-size: 0.8rem;
+}
+
+.arrow-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.arrow-right {
+  transform: scaleX(2);
+}
+
+.workflow-diagram-card {
+  padding: 40px;
+  margin-bottom: 60px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.workflow-diagram-card::-webkit-scrollbar {
+  display: none;
+}
+
+.workflow-diagram-title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: var(--color-primary);
+}
+
+.workflow-diagram-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  min-width: 800px;
+}
+
+.workflow-main-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.workflow-arrow-wrapper {
+  text-align: center;
+  margin: 0 10px;
+}
+
+.workflow-arrow-label {
+  font-size: 0.6rem;
+  color: #666;
+}
+
+.workflow-solver-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.kb-connection {
+  width: 2px;
+  height: 20px;
+  background: var(--color-primary);
+}
+
+.workflow-legend {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.legend-primary {
+  color: var(--color-primary);
+}
+
+.legend-criminal {
+  color: var(--color-criminal);
+}
+
+.workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}

@@ -1,25 +1,17 @@
 import React from 'react';
 import './App.css';
-import Hero from './components/Hero';
-import Workflow from './components/Workflow';
-import Demo from './components/Demo';
-import Footer from './components/Footer';
-import SpaceInvader from './components/SpaceInvader';
-import TabBar from './components/TabBar';
-import PixelBlast from './components/PixelBlast';
+import Hero from './components/Hero/Hero';
+import Workflow from './components/Workflow/Workflow';
+import Demo from './components/Demo/Demo';
+import Footer from './components/Footer/Footer';
+import SpaceInvader from './components/SpaceInvader/SpaceInvader';
+import TabBar from './components/TabBar/TabBar';
+import PixelBlast from './components/PixelBlast/PixelBlast';
 
 function App() {
   return (
-    <div className="App" style={{ paddingTop: '80px', position: 'relative', minHeight: '100vh' }}>
-      <div style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: -1,
-        backgroundColor: '#000000'
-      }}>
+    <div className="App app-container">
+      <div className="background-container">
         <PixelBlast
           color="#00ff00"
           pixelSize={4}
@@ -30,7 +22,7 @@ function App() {
           transparent={true}
           enableRipples={true}
           rippleSpeed={0.5}
-          style={{ opacity: 0.3 }}
+          className="pixel-blast-bg"
         />
       </div>
 

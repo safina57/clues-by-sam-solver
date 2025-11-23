@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import './Demo.css';
 
 const Demo = () => {
   const videoRef = useRef(null);
@@ -33,17 +34,8 @@ const Demo = () => {
   return (
     <section id="demo" className="container">
       <h2 className="section-title">MISSION REPLAY</h2>
-      <div className="pixel-card" style={{ padding: '10px' }}>
-        <div style={{
-          width: '100%',
-          aspectRatio: '16/9',
-          backgroundColor: '#000',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          border: '2px solid #333',
-          overflow: 'hidden'
-        }}>
+      <div className="pixel-card demo-card">
+        <div className="demo-video-container">
           <video
             ref={videoRef}
             muted
@@ -51,7 +43,7 @@ const Demo = () => {
             playsInline
             width="100%"
             height="100%"
-            style={{ display: 'block' }}
+            className="demo-video"
           >
             <source src="./demo.mp4" type="video/mp4" />
             Your browser does not support the video tag.

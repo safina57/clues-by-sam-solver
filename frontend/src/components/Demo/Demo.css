@@ -1,0 +1,18 @@
+.demo-card {
+  padding: 10px;
+}
+
+.demo-video-container {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #333;
+  overflow: hidden;
+}
+
+.demo-video {
+  display: block;
+}
