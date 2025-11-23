@@ -174,5 +174,44 @@ class GameScraper:
             if await close_btn.is_visible():
                 await close_btn.click()
 
+    async def check_for_mistake(self) -> bool:
+        """Check if the 'Not enough evidence' modal is visible."""
+        try:
+            # Short timeout because we expect it to appear immediately if at all
+            modal = self.page.locator(".modal-overlay .modal.warning")
+            if await modal.is_visible(timeout=2000):                
+                # Click Continue to dismiss
+                btn = modal.locator("button.btn-warn")
+                if await btn.is_visible():
+                    await btn.click()
+                    await modal.wait_for(state="hidden")
+                return True
+        except Exception:
+            pass
+        return False
+
+    async def check_for_win_modal(self) -> bool:
+        """Check if the 'Game Won' modal is visible."""
+        try:
+            modal = self.page.locator(".modal-overlay .modal.complete")
+            if await modal.is_visible(timeout=2000):
+                return True
+        except Exception:
+            pass
+        return False
+
+    async def is_game_complete(self) -> bool:
+        """Check if all 20 cards have been solved (no longer unknown)."""
+        try:
+            solved_count = await self.page.locator(".card.innocent, .card.criminal").count()
+            return solved_count == 20
+        except Exception:
+            return False
+
+    async def take_screenshot(self, path: str):
+        """Take a screenshot of the current page."""
+        if self.page:
+            await self.page.screenshot(path=path, full_page=True)
+
     def _extract_profession(self, text: str) -> str:
         return text.lower().strip()

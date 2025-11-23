@@ -1,4 +1,3 @@
-import os
 from typing import List
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent
@@ -7,11 +6,11 @@ from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.azure import AzureProvider
 from pydantic_ai import Agent
 
-
 class TranslationResult(BaseModel):
     logic_code: str = Field(description="Python code snippet evaluating to a Z3 BoolRef. Return 'None' if text is flavor text.")
     confidence: float = Field(description="Confidence score 0-1.")
     reasoning: str = Field(description="Explanation of the translation.")
+    is_flavor_text: bool = Field(description="True if the text is just flavor text/dialogue and not a logic clue.")
 
 class ClueTranslator:
     def __init__(self):
@@ -60,11 +59,42 @@ class ClueTranslator:
                 "--- Instructions ---\n"
                 "1. Return ONLY the expression that evaluates to a Z3 constraint (BoolRef).\n"
                 "2. Use Python list comprehensions and Z3 functions (If, Sum, And, Or, Not, Implies) if needed.\n"
-                
+                "3. EXTRACT ALL INFORMATION: A single clue often contains multiple constraints. Use And(...) to combine them.\n"
+                "4. 'Exactly M of the N X are Y' implies TWO constraints:\n"
+                "   a. There are exactly N people who are X (e.g., '4 innocents neighboring Carol' -> count_innocents(neighbors('Carol')) == 4)\n"
+                "   b. Among those N people, exactly M are Y.\n"
+                "5. 'X neighboring Y' means Y is in X's neighbors. Do NOT assume 'common neighbors' unless the clue says 'neighboring BOTH X and Y'.\n"
+                "6. 'Above' means anywhere above in the same column. 'Directly above' means immediately above.\n"
+                "7. 'Odd number of X' means count(X) % 2 == 1. 'Even number' means count(X) % 2 == 0. Do NOT use Exists() for this.\n"
+                "8. FLAVOR TEXT: If the input is just dialogue (e.g., 'I should have known...') or does not contain a logic puzzle clue, set is_flavor_text=True and logic_code='True'.\n"
+                "9. SELF REFERENCE: 'me', 'my', 'I' refer to the 'Speaker' provided in the prompt. Replace them with the speaker's name string.\n"
+                "10. 'ONLY X with Y' means X has Y, and ALL OTHER X do NOT have Y. (e.g., 'Row 2 is the only row with 1 criminal' -> Row 2 has 1 criminal, all other rows have != 1 criminal).\n"
+                "11. 'To the left/right/above/below' refers to ALL people in that direction in the same row/column, not just neighbors. Use kb.get_left_of() etc.\n\n"
+                "--- Examples ---\n"
+                "Clue: 'Exactly 2 of the 4 innocents neighboring Carol are above Zoe'\n"
+                "Code: And(\n"
+                "    kb.count_innocents(kb.get_neighbors('Carol')) == 4,\n"
+                "    kb.count_innocents([n for n in kb.get_neighbors('Carol') if kb.is_above(n, 'Zoe')]) == 2\n"
+                ")\n\n"
+                "Clue: 'An odd number of innocents on the edges neighbor Salil'\n"
+                "Code: kb.count_innocents([n for n in kb.get_neighbors('Salil') if n in kb.get_edges()]) % 2 == 1\n\n"
+                "Clue: 'There is an odd number of criminals to the left of me' (Speaker: 'Anna')\n"
+                "Code: kb.count_criminals(kb.get_left_of('Anna')) % 2 == 1\n\n"
+                "Clue: 'Row 2 is the only row with exactly one criminal'\n"
+                "Code: And(\n"
+                "    kb.count_criminals(kb.get_row(2)) == 1,\n"
+                "    And([kb.count_criminals(kb.get_row(r)) != 1 for r in range(1, 6) if r != 2])\n"
+                ")\n\n"
+                "Clue: 'I should have known I would get caught...'\n"
+                "Code: True\n"
+                "is_flavor_text: True\n"
             )
         )
-    async def translate(self, clue: str, people_names: List[str]) -> TranslationResult:
+    async def translate(self, clue: str, people_names: List[str], speaker: str = None) -> TranslationResult:
         # We pass the names as context so the LLM knows valid entities
         prompt = f"Clue: \"{clue}\"\nValid Names: {', '.join(people_names)}"
+        if speaker:
+            prompt += f"\nSpeaker: {speaker}"
+
         result = await self.agent.run(prompt)
         return result.output

@@ -77,3 +77,21 @@ class GameSolver:
         elif status == Status.INNOCENT:
             self.kb.solver.add(var == False)
 
+    def log_state(self, iteration: int, filepath: str = "solver_log.txt"):
+        """Log the current state of the KB to a file."""
+        with open(filepath, "a") as f:
+            f.write(f"\n{'='*20} Iteration {iteration} {'='*20}\n")
+            
+            f.write("\n--- Known Facts ---\n")
+            for p in self.kb.people:
+                if p.status != Status.UNKNOWN:
+                    f.write(f"{p.name}: {p.status.value}\n")
+            
+            f.write("\n--- Added Constraints (Code) ---\n")
+            for i, c in enumerate(self.constraints):
+                f.write(f"{i+1}. {c}\n")
+                
+            f.write("\n--- Z3 Solver State ---\n")
+            f.write(str(self.kb.solver))
+            f.write(f"\n{'='*50}\n")
+
