@@ -12,8 +12,10 @@
   },
   "dependencies": {
     "lucide-react": "^0.554.0",
+    "postprocessing": "^6.38.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "three": "^0.181.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

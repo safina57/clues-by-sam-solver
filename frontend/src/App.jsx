@@ -6,10 +6,11 @@ import Demo from './components/Demo';
 import Footer from './components/Footer';
 import SpaceInvader from './components/SpaceInvader';
 import TabBar from './components/TabBar';
+import PixelBlast from './components/PixelBlast';
 
 function App() {
   return (
-    <div className="App" style={{ paddingTop: '80px' }}>
+    <div className="App" style={{ paddingTop: '80px', position: 'relative', minHeight: '100vh' }}>
       <div style={{
         position: 'fixed',
         top: 0,
@@ -17,27 +18,21 @@ function App() {
         width: '100%',
         height: '100%',
         zIndex: -1,
-        opacity: 0.1,
-        backgroundImage: `
-          linear-gradient(0deg, transparent 24%, rgba(0, 255, 0, .3) 25%, rgba(0, 255, 0, .3) 26%, transparent 27%, transparent 74%, rgba(0, 255, 0, .3) 75%, rgba(0, 255, 0, .3) 76%, transparent 77%, transparent),
-          linear-gradient(90deg, transparent 24%, rgba(0, 255, 0, .3) 25%, rgba(0, 255, 0, .3) 26%, transparent 27%, transparent 74%, rgba(0, 255, 0, .3) 75%, rgba(0, 255, 0, .3) 76%, transparent 77%, transparent)
-        `,
-        backgroundSize: '50px 50px'
-      }}></div>
-
-      {/* Pixel Stars */}
-      <div style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: -2,
-        backgroundImage: 'radial-gradient(white 1px, transparent 1px), radial-gradient(white 1px, transparent 1px)',
-        backgroundSize: '50px 50px',
-        backgroundPosition: '0 0, 25px 25px',
-        opacity: 0.1
-      }}></div>
+        backgroundColor: '#000000'
+      }}>
+        <PixelBlast
+          color="#00ff00"
+          pixelSize={4}
+          variant="square"
+          patternScale={4}
+          patternDensity={1.5}
+          speed={0.2}
+          transparent={true}
+          enableRipples={true}
+          rippleSpeed={0.5}
+          style={{ opacity: 0.3 }}
+        />
+      </div>
 
       <TabBar />
       <Hero />
@@ -47,4 +42,6 @@ function App() {
       <SpaceInvader />
     </div>
   );
-}export default App;
+}
+
+export default App;

@@ -1,0 +1,16 @@
+.pixel-blast-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  pointer-events: auto; /* Ensure it captures pointer events */
+}
+
+.pixel-blast-container canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  outline: none;
+}
