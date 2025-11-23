@@ -51,28 +51,20 @@ async def main():
                         new_clues.append((p.name, p.clue))
 
             if new_clues:
-                print(f"Found {len(new_clues)} new clues.")
                 people_names = [p.name for p in people]
 
                 for name, clue_text in new_clues:
-                    print(f'\nTranslating clue from {name}: "{clue_text}"')
                     try:
                         result = await translator.translate(
                             clue_text, people_names, speaker=name
                         )
 
                         if result.is_flavor_text:
-                            print("Detected flavor text. Skipping.")
                             processed_clues.add((name, clue_text))
                             continue
 
-                        print(f"Generated Logic: {result.logic_code}")
-                        print(f"Reasoning: {result.reasoning}")
-                        print(f"Confidence: {result.confidence}")
-
                         # Human verification
                         if result.confidence > 0.8:
-                            print("High confidence. Adding constraint automatically.")
                             solver.add_constraint(result.logic_code)
                             processed_clues.add((name, clue_text))
                         else:
@@ -85,14 +77,12 @@ async def main():
                     except Exception as e:
                         print(f"Translation failed: {e}")
             else:
-                print("No new clues to process.")
+                pass
 
             # 2. Solve
-            print("Running solver...")
             actions = solver.solve()
 
             if actions:
-                print(f"Found {len(actions)} proven facts!")
                 for name, status in actions:
                     print(f"ACTION: Mark {name} as {status.value}")
 
@@ -111,7 +101,7 @@ async def main():
                         if p.name == name:
                             p.status = status
             else:
-                print("No new deductions made.")
+                pass
 
             # Log state
             solver.log_state(iteration)
@@ -126,7 +116,6 @@ async def main():
                 break
 
             # Break after one iteration for testing and debugging
-            print("\n--- End of Turn ---")
             # choice = input("Run another turn? (y/n): ")
             # if choice.lower() != 'y':
             #     break

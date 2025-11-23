@@ -32,9 +32,7 @@ class GameSolver:
             rule = eval(constraint_code, context)
             self.kb.solver.add(rule)
             self.constraints.append(constraint_code)
-            print(f"Added constraint: {constraint_code}")
         except Exception as e:
-            print(f"Failed to add constraint: {e}")
             raise e
 
     def solve(self) -> List[Tuple[str, Status]]:

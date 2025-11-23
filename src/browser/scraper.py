@@ -22,17 +22,16 @@ class GameScraper:
         try:
             start_btn = self.page.locator("button.btn.start")
             if await start_btn.is_visible(timeout=5000):
-                print("Clicking Start button...")
                 await start_btn.click()
                 await self.page.wait_for_selector(".modal-overlay", state="hidden")
         except Exception:
-            print("No start modal found or already started.")
+            pass
 
         # Wait for grid to load
         try:
             await self.page.wait_for_selector("#grid", timeout=15000)
         except Exception:
-            print("Timeout waiting for game to load. Check network or selectors.")
+            pass
 
     async def stop(self):
         """Close the browser."""
@@ -50,7 +49,6 @@ class GameScraper:
         count = await cards.count()
 
         if count == 0:
-            print("No cards found!")
             return []
 
         for i in range(count):
@@ -139,8 +137,6 @@ class GameScraper:
         if status == Status.UNKNOWN:
             return
 
-        print(f"Marking {name} as {status.value}...")
-
         # 1. Click the card to open modal
         name_lower = name.lower()
 
@@ -171,7 +167,6 @@ class GameScraper:
             # Wait for modal to close
             await modal.wait_for(state="hidden")
         else:
-            print(f"Error: Could not find button for '{status.value}' in modal")
             # Close modal to recover
             close_btn = modal.locator("button.btn-close")
             if await close_btn.is_visible():
