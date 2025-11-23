@@ -18,7 +18,7 @@ const Footer = () => {
               <span>GITHUB REPO</span>
             </div>
           </a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="pixel-btn">
+          <a href="https://www.linkedin.com/in/mohamed-amin-haouas" target="_blank" rel="noopener noreferrer" className="pixel-btn">
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <Linkedin size={18} />
               <span>LINKEDIN</span>

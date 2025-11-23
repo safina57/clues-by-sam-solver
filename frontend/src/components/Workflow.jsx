@@ -114,24 +114,19 @@ const WorkflowDiagram = () => {
         gap: '20px'
       }}>
         <WorkflowStep
-          icon={Database}
-          title="KNOWLEDGE BASE"
-          description="The game state is modeled as a collection of facts and constraints. We define the entities (colors, items, positions) and their relationships."
+          icon={Terminal}
+          title="GAME REPRESENTATION"
+          description="The game is represented as a grid of people with different professions. Relationships are defined by spatial constraints like neighbors, edges, or relative positions."
         />
         <WorkflowStep
           icon={Code}
-          title="FIRST ORDER LOGIC"
-          description="Clues are translated into First Order Logic formulas. For example, 'The red item is left of the blue item' becomes a mathematical constraint on positions."
+          title="AI TRANSLATOR"
+          description="An AI-powered translator converts natural language hints into First Order Logic (FOL) formulas that serve as input for the inference engine."
         />
         <WorkflowStep
           icon={Cpu}
-          title="Z3 SOLVER"
-          description="Microsoft's Z3 Theorem Prover is the core engine. It takes the logical constraints and efficiently searches for a satisfying model that fits all clues."
-        />
-        <WorkflowStep
-          icon={Terminal}
-          title="TRANSLATOR"
-          description="A custom translator parses the natural language clues from the game and converts them into the Z3-compatible constraints automatically."
+          title="Z3 SOLVER ENGINE"
+          description="The core engine uses the Z3 Theorem Prover with a knowledge base that augments with each iteration to prove satisfiability and deduce the final state."
         />
       </div>
     </section>
