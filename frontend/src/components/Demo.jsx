@@ -1,6 +1,35 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 
 const Demo = () => {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            videoRef.current.play().catch(error => {
+              console.log("Autoplay prevented:", error);
+            });
+          } else {
+            videoRef.current.pause();
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => {
+      if (videoRef.current) {
+        observer.unobserve(videoRef.current);
+      }
+    };
+  }, []);
+
   return (
     <section id="demo" className="container">
       <h2 className="section-title">MISSION REPLAY</h2>
@@ -16,7 +45,10 @@ const Demo = () => {
           overflow: 'hidden'
         }}>
           <video
-            controls
+            ref={videoRef}
+            muted
+            loop
+            playsInline
             width="100%"
             height="100%"
             style={{ display: 'block' }}
