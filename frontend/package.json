@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://safina57.github.io/clues-by-sam-solver/",
   "scripts": {
     "dev": "vite",
     "start": "vite",

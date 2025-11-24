@@ -1,0 +1,52 @@
+name: Deploy React Frontend to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # allow manual trigger
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      # Deploy the build folder to GitHub Pages
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend/build
+
+  publish:
+    needs: deploy
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
