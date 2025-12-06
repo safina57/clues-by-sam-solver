@@ -128,6 +128,26 @@ class KnowledgeBase:
         """Return all people below 'name' in the same column."""
         return [p.name for p in self.people if self.is_below(p.name, name)]
 
+    def get_directly_left(self, name: str) -> str | None:
+        """Return the person directly to the left, or None if no one."""
+        left = [p.name for p in self.people if self.is_directly_left(p.name, name)]
+        return left[0] if left else None
+
+    def get_directly_right(self, name: str) -> str | None:
+        """Return the person directly to the right, or None if no one."""
+        right = [p.name for p in self.people if self.is_directly_right(p.name, name)]
+        return right[0] if right else None
+
+    def get_directly_above(self, name: str) -> str | None:
+        """Return the person directly above, or None if no one."""
+        above = [p.name for p in self.people if self.is_directly_above(p.name, name)]
+        return above[0] if above else None
+
+    def get_directly_below(self, name: str) -> str | None:
+        """Return the person directly below, or None if no one."""
+        below = [p.name for p in self.people if self.is_directly_below(p.name, name)]
+        return below[0] if below else None
+
     # --- Logic Helpers ---
 
     def count_criminals(self, names: List[str]) -> ArithRef:
@@ -135,6 +155,17 @@ class KnowledgeBase:
 
     def count_innocents(self, names: List[str]) -> ArithRef:
         return Sum([If(self.is_innocent(n), 1, 0) for n in names])
+
+    def count_profession(self, profession_or_names) -> int:
+        """Count people by profession name or count a list of names."""
+        if isinstance(profession_or_names, str):
+            # Count by profession name
+            return len(self.get_profession(profession_or_names))
+        elif isinstance(profession_or_names, list):
+            # Count list of names
+            return len(profession_or_names)
+        else:
+            raise ValueError(f"Invalid argument type: {type(profession_or_names)}")
 
     def is_above(self, name1: str, name2: str) -> bool:
         """Is name1 above name2"""

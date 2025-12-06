@@ -17,6 +17,10 @@ async def main():
     with open("solver_log.txt", "w") as f:
         f.write(f"Solver Log - Run started at {datetime.now()}\n")
 
+    # Clear translation log file
+    with open("translation_log.txt", "w") as f:
+        f.write(f"Translation Log - Run started at {datetime.now()}\n")
+
     # Initialize components
     scraper = GameScraper(headless=False)
     translator = ClueTranslator()
@@ -58,6 +62,16 @@ async def main():
                         result = await translator.translate(
                             clue_text, people_names, speaker=name
                         )
+
+                        # Log translation
+                        with open("translation_log.txt", "a") as f:
+                            f.write(f"\n--- Clue from {name} ---\n")
+                            f.write(f"Text: {clue_text}\n")
+                            f.write(f"Code: {result.logic_code}\n")
+                            f.write(f"Confidence: {result.confidence}\n")
+                            f.write(f"Reasoning: {result.reasoning}\n")
+                            f.write(f"Is Flavor: {result.is_flavor_text}\n")
+                            f.write("-" * 30 + "\n")
 
                         if result.is_flavor_text:
                             processed_clues.add((name, clue_text))
